@@ -6,6 +6,7 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { LoginModule } from './login/login.module';
 import { S3Module } from './storage/s3.module';
+import { SisPermissoesModule } from './permissoes/sis-permissoes.module';
 
 @Module({
 imports: [
@@ -13,6 +14,7 @@ imports: [
     PrismaModule,
     LoginModule,
     S3Module,
+    SisPermissoesModule
   ],
   controllers: [AppController],
   providers: [AppService],
