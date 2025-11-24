@@ -53,16 +53,26 @@ export class LoginController {
     description: 'Login bem-sucedido',
     schema: {
       $ref: getSchemaPath(LoginResponseView),
-      // Em versões antigas, exemplo vai dentro de schema.example
       example: {
         access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
         expires_in: 3600,
-        user: {
-          usuario_id: 123,
-          nome: 'Giovana Custodio',
-          codigo: 'USR001',
-          setor: 'TI',
-        },
+        usuario: 'JOÃO DA SILVA',
+        usuario_id: 'user-123',
+        codigo: 'USR001',
+        setor: 'TI',
+        permissoes: [
+          {
+            id: 'uuid',
+            usuario_id: 'user-123',
+            modulo: 'estoque',
+            tela: 'produtos',
+            visualizar: true,
+            editar: false,
+            criar: false,
+            deletar: false,
+          },
+        ],
+        token_type: 'Bearer',
       },
     },
   })

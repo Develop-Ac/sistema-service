@@ -59,6 +59,7 @@ export class LoginService {
       usuario_id: usuario.id,
       codigo: usuario.codigo,
       setor: usuario.setor,
+      permissoes: usuario.sis_permissoes || [],
       token_type: 'Bearer',
       expires_in,            // seg até expirar (opcional)
       access_token,          // <<< JWT no body

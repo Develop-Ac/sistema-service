@@ -8,6 +8,9 @@ export class LoginRepository {
   async findUsuarioByCodigo(codigo: string) {
     return this.prisma.sis_usuarios.findUnique({
       where: { codigo },
+      include: {
+        sis_permissoes: true,
+      },
     });
   }
 }

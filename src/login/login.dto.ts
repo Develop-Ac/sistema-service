@@ -21,8 +21,46 @@ export class LoginResponseView {
   expires_in!: number;
 
   @ApiProperty({
-    example: { usuario_id: 123, nome: 'Giovana Custodio', codigo: 'USR001', setor: 'TI' },
+    example: 'JOÃO DA SILVA',
   })
-  user!: { usuario_id: number; nome: string; codigo: string; setor?: string };
+  usuario!: string;
+
+  @ApiProperty({
+    example: 'user-123',
+  })
+  usuario_id!: string;
+
+  @ApiProperty({
+    example: 'USR001',
+  })
+  codigo!: string;
+
+  @ApiProperty({
+    example: 'TI',
+    required: false,
+  })
+  setor?: string;
+
+  @ApiProperty({
+    example: [
+      {
+        id: 'uuid',
+        usuario_id: 'user-123',
+        modulo: 'estoque',
+        tela: 'produtos',
+        visualizar: true,
+        editar: false,
+        criar: false,
+        deletar: false,
+      },
+    ],
+    description: 'Permissões do usuário',
+    required: false,
+    type: 'array',
+  })
+  permissoes?: any[];
+
+  @ApiProperty({ example: 'Bearer' })
+  token_type!: string;
 }
 

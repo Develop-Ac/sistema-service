@@ -49,6 +49,18 @@ describe('LoginService', () => {
         setor: 'ESTOQUE',
         senha: senhaHash,
         trash: 0,
+        sis_permissoes: [
+          {
+            id: 'perm-1',
+            usuario_id: 'user-123',
+            modulo: 'estoque',
+            tela: 'produtos',
+            visualizar: true,
+            editar: false,
+            criar: false,
+            deletar: false,
+          },
+        ],
       };
 
       const expectedResponse = {
@@ -58,6 +70,10 @@ describe('LoginService', () => {
         usuario_id: 'user-123',
         codigo: 'JS001',
         setor: 'ESTOQUE',
+        permissoes: mockUsuario.sis_permissoes,
+        token_type: 'Bearer',
+        expires_in: expect.any(Number),
+        access_token: expect.any(String),
       };
 
       repository.findUsuarioByCodigo.mockResolvedValue(mockUsuario);
@@ -98,6 +114,7 @@ describe('LoginService', () => {
         setor: 'ESTOQUE',
         senha: senhaHash,
         trash: 0,
+        sis_permissoes: [],
       };
 
       repository.findUsuarioByCodigo.mockResolvedValue(mockUsuario);
@@ -125,6 +142,7 @@ describe('LoginService', () => {
         setor: 'VENDAS',
         senha: senhaHash,
         trash: 0,
+        sis_permissoes: [],
       };
 
       repository.findUsuarioByCodigo.mockResolvedValue(mockUsuario);
@@ -152,6 +170,7 @@ describe('LoginService', () => {
         setor: 'ESTOQUE',
         senha: senhaHash,
         trash: 0,
+        sis_permissoes: [],
       };
 
       repository.findUsuarioByCodigo.mockResolvedValue(mockUsuario);
