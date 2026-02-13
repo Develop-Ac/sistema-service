@@ -13,10 +13,13 @@ model sis_usuarios {
   trash             Int                @default(0)
   id                String             @id @default(cuid())
   codigo            String             @unique
-  setor             String
+  perfil_acesso     String
+  setor             String?
   est_contagem      est_contagem[]
   est_contagem_logs est_contagem_log[]
   sis_permissoes    sis_permissoes[]
+  avatar_url        String?
+  tema_preferencia  String             @default("system")
 }
 
 model com_cotacao {

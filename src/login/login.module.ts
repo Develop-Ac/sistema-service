@@ -5,6 +5,8 @@ import { LoginRepository } from './login.repository';
 import { PrismaModule } from '../prisma/prisma.module';
 import { JwtModule } from '@nestjs/jwt';
 
+import { AuthGuard } from './auth.guard';
+
 @Module({
   imports: [
     JwtModule.register({
@@ -13,7 +15,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
     PrismaModule],
   controllers: [LoginController],
-  providers: [LoginService, LoginRepository],
-  exports: [LoginService, LoginRepository],
+  providers: [LoginService, LoginRepository, AuthGuard],
+  exports: [LoginService, LoginRepository, AuthGuard],
 })
-export class LoginModule {}
+export class LoginModule { }

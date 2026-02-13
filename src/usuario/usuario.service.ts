@@ -6,12 +6,13 @@ export interface CreateUsuarioInput {
   nome: string;
   codigo: string;
   setor: string;
+  perfil_acesso: string;
   senha: string;
 }
 
 @Injectable()
 export class UsuarioService {
-  constructor(private readonly repo: UsuarioRepository) {}
+  constructor(private readonly repo: UsuarioRepository) { }
 
   async findAll() {
     return this.repo.findAll();
@@ -26,6 +27,7 @@ export class UsuarioService {
         nome: data.nome,
         codigo: data.codigo,
         setor: data.setor,
+        perfil_acesso: data.perfil_acesso,
         senha: senhaHash,
         trash: 0,
       });
@@ -53,7 +55,7 @@ export class UsuarioService {
 
   async update(id: string, data: Partial<CreateUsuarioInput>) {
     const updateData: any = { ...data };
-    
+
     if (data.senha) {
       updateData.senha = await bcrypt.hash(data.senha, 10);
     }

@@ -44,6 +44,7 @@ describe('UsuarioRepository', () => {
           nome: 'JOÃO DA SILVA',
           codigo: 'JS001',
           setor: 'ESTOQUE',
+          perfil_acesso: 'ADMIN',
           senha: '$2b$10$hashedPassword',
           trash: 0,
         },
@@ -52,6 +53,7 @@ describe('UsuarioRepository', () => {
           nome: 'MARIA SANTOS',
           codigo: 'MS002',
           setor: 'VENDAS',
+          perfil_acesso: 'USER',
           senha: '$2b$10$anotherHashedPassword',
           trash: 0,
         },
@@ -67,6 +69,7 @@ describe('UsuarioRepository', () => {
           id: true,
           nome: true,
           setor: true,
+          perfil_acesso: true,
           codigo: true,
           trash: true,
         },
@@ -88,6 +91,7 @@ describe('UsuarioRepository', () => {
         nome: 'NOVO USUÁRIO',
         codigo: 'NU001',
         setor: 'TI',
+        perfil_acesso: 'ADMIN',
         senha: '$2b$10$hashedPassword',
         trash: 0,
       };
@@ -103,7 +107,7 @@ describe('UsuarioRepository', () => {
 
       expect(prismaService.sis_usuarios.create).toHaveBeenCalledWith({
         data: createData,
-        select: { id: true, nome: true, setor: true },
+        select: { id: true, nome: true, setor: true, perfil_acesso: true },
       });
       expect(result).toEqual(mockUsuarioCreated);
     });
@@ -113,6 +117,7 @@ describe('UsuarioRepository', () => {
         nome: 'USUÁRIO DUPLICADO',
         codigo: 'UD001',
         setor: 'TI',
+        perfil_acesso: 'USER',
         senha: '$2b$10$hashedPassword',
         trash: 0,
       };
@@ -131,6 +136,7 @@ describe('UsuarioRepository', () => {
         nome: 'NOVO USUÁRIO',
         codigo: 'NU001',
         setor: 'TI',
+        perfil_acesso: 'ADMIN',
         senha: '$2b$10$hashedPassword',
         trash: 0,
       };
@@ -150,6 +156,7 @@ describe('UsuarioRepository', () => {
         nome: 'JOÃO DA SILVA',
         codigo: 'JS001',
         setor: 'ESTOQUE',
+        perfil_acesso: 'ADMIN',
         senha: '$2b$10$hashedPassword',
         trash: 0,
       };
@@ -164,6 +171,7 @@ describe('UsuarioRepository', () => {
           id: true,
           nome: true,
           setor: true,
+          perfil_acesso: true,
           codigo: true,
         },
       });
@@ -202,6 +210,7 @@ describe('UsuarioRepository', () => {
         nome: 'JOÃO DA SILVA SANTOS',
         codigo: 'JS001',
         setor: 'GERÊNCIA',
+        perfil_acesso: 'ADMIN',
         senha: '$2b$10$hashedPassword',
         trash: 0,
       };
@@ -213,7 +222,7 @@ describe('UsuarioRepository', () => {
       expect(prismaService.sis_usuarios.update).toHaveBeenCalledWith({
         where: { id, trash: 0 },
         data: updateData,
-        select: { id: true, nome: true, setor: true, codigo: true },
+        select: { id: true, nome: true, setor: true, perfil_acesso: true, codigo: true },
       });
       expect(result).toEqual(mockUsuarioUpdated);
     });
@@ -261,6 +270,7 @@ describe('UsuarioRepository', () => {
         nome: 'JOÃO DA SILVA',
         codigo: 'JS001',
         setor: 'ESTOQUE',
+        perfil_acesso: 'ADMIN',
         senha: '$2b$10$hashedPassword',
         trash: 1,
       };
@@ -272,7 +282,7 @@ describe('UsuarioRepository', () => {
       expect(prismaService.sis_usuarios.update).toHaveBeenCalledWith({
         where: { id, trash: 0 },
         data: { trash: 1 },
-        select: { id: true, nome: true, setor: true },
+        select: { id: true, nome: true, setor: true, perfil_acesso: true },
       });
       expect(result).toEqual(mockUsuarioDeleted);
     });

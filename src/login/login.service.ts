@@ -8,7 +8,7 @@ export class LoginService {
   constructor(
     private readonly repo: LoginRepository,
     private readonly jwt: JwtService,
-  ) {}
+  ) { }
 
   /**
    * Valida credenciais e retorna o usuário + JWT em caso de sucesso.
@@ -59,10 +59,27 @@ export class LoginService {
       usuario_id: usuario.id,
       codigo: usuario.codigo,
       setor: usuario.setor,
+      avatar_url: usuario.avatar_url,
       permissoes: usuario.sis_permissoes || [],
       token_type: 'Bearer',
       expires_in,            // seg até expirar (opcional)
       access_token,          // <<< JWT no body
+    };
+  }
+
+  async getMe(userId: string) {
+    const usuario = await this.repo.findUsuarioById(userId);
+    if (!usuario) {
+      return null;
+    }
+
+    return {
+      usuario: usuario.nome,
+      usuario_id: usuario.id,
+      codigo: usuario.codigo,
+      setor: usuario.setor,
+      avatar_url: usuario.avatar_url,
+      permissoes: usuario.sis_permissoes || [],
     };
   }
 }

@@ -3,9 +3,13 @@ import {
   Body,
   Controller,
   Post,
+  Get,
+  UseGuards,
+  Request,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { AuthGuard } from './auth.guard';
 import {
   ApiBody,
   ApiOkResponse,
@@ -25,7 +29,7 @@ import { LoginDto, LoginResponseView } from './login.dto';
 @ApiExtraModels(LoginDto, LoginResponseView)
 @Controller('login')
 export class LoginController {
-  constructor(private readonly loginService: LoginService) {}
+  constructor(private readonly loginService: LoginService) { }
 
   @Post()
   @ApiOperation({ summary: 'Autentica o usuário e retorna o token' })
@@ -103,5 +107,19 @@ export class LoginController {
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   async login(@Body() dto: LoginDto) {
     return this.loginService.login(dto.codigo, dto.senha);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('me')
+  @ApiOperation({ summary: 'Retorna dados do usuário logado' })
+  @ApiOkResponse({
+    description: 'Dados do usuário autenticado',
+    schema: {
+      // Reuse login response view as it matches the structure
+      $ref: getSchemaPath(LoginResponseView)
+    },
+  })
+  async me(@Request() req) {
+    return this.loginService.getMe(req.user.sub);
   }
 }
