@@ -1,5 +1,15 @@
-import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
+import {
+  IsEmail,
+  IsIn,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateUsuarioDto {
   @ApiProperty({ example: 'Giovana Custodio', maxLength: 255 })
@@ -21,6 +31,14 @@ export class CreateUsuarioDto {
   @ApiProperty({ example: 'SenhaF0rte!', minLength: 6, description: 'Mínimo 6 caracteres' })
   @IsNotEmpty() @IsString() @MinLength(6)
   senha!: string;
+
+  @ApiPropertyOptional({ example: 341, description: 'rep_codigo do vendedor (painel de vendas)' })
+  @IsOptional() @Type(() => Number) @IsInt()
+  vendas_rep_codigo?: number;
+
+  @ApiPropertyOptional({ example: 'VAREJO', enum: ['VAREJO', 'ATACADO'], description: 'Hub de vendas inicial' })
+  @IsOptional() @IsIn(['VAREJO', 'ATACADO'])
+  vendas_hub_inicial?: string;
 }
 
 export class UsuarioView {
@@ -29,6 +47,8 @@ export class UsuarioView {
   @ApiProperty({ example: '12345' }) codigo!: string;
   @ApiProperty({ example: 'Vendas' }) setor!: string;
   @ApiProperty({ example: 'Admin' }) perfil_acesso!: string;
+  @ApiPropertyOptional({ example: 341 }) vendas_rep_codigo?: number;
+  @ApiPropertyOptional({ example: 'VAREJO' }) vendas_hub_inicial?: string;
 }
 
 export class UpdateUsuarioDto extends PartialType(CreateUsuarioDto) { }

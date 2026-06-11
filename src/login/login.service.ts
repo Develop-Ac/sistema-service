@@ -60,6 +60,8 @@ export class LoginService {
       codigo: usuario.codigo,
       setor: usuario.setor,
       avatar_url: usuario.avatar_url,
+      vendas_rep_codigo: usuario.vendas_rep_codigo ?? null,
+      vendas_hub_inicial: usuario.vendas_hub_inicial ?? null,
       permissoes: usuario.sis_permissoes || [],
       token_type: 'Bearer',
       expires_in,            // seg até expirar (opcional)
@@ -79,6 +81,8 @@ export class LoginService {
       codigo: usuario.codigo,
       setor: usuario.setor,
       avatar_url: usuario.avatar_url,
+      vendas_rep_codigo: usuario.vendas_rep_codigo ?? null,
+      vendas_hub_inicial: usuario.vendas_hub_inicial ?? null,
       permissoes: usuario.sis_permissoes || [],
     };
   }

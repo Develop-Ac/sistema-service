@@ -20,6 +20,8 @@ model sis_usuarios {
   sis_permissoes    sis_permissoes[]
   avatar_url        String?
   tema_preferencia  String             @default("system")
+  vendas_rep_codigo  Int?
+  vendas_hub_inicial String?           // 'VAREJO' | 'ATACADO'
 }
 
 model com_cotacao {
