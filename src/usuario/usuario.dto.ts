@@ -36,8 +36,8 @@ export class CreateUsuarioDto {
   @IsOptional() @Type(() => Number) @IsInt()
   vendas_rep_codigo?: number;
 
-  @ApiPropertyOptional({ example: 'VAREJO', enum: ['VAREJO', 'ATACADO', 'SUPERVISAO_ATACADO'], description: 'Hub de vendas inicial' })
-  @IsOptional() @IsIn(['VAREJO', 'ATACADO', 'SUPERVISAO_ATACADO'])
+  @ApiPropertyOptional({ example: 'VAREJO', enum: ['VAREJO', 'ATACADO', 'SUPERVISAO_ATACADO', 'GERENCIA'], description: 'Hub de vendas inicial' })
+  @IsOptional() @IsIn(['VAREJO', 'ATACADO', 'SUPERVISAO_ATACADO', 'GERENCIA'])
   vendas_hub_inicial?: string;
 }
 
