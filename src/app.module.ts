@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsuarioModule } from './usuario/usuario.module';
@@ -14,7 +16,11 @@ imports: [
     PrismaModule,
     LoginModule,
     S3Module,
-    SisPermissoesModule
+    SisPermissoesModule,
+
+    PrometheusModule.register({
+      defaultMetrics: { enabled: true }, // CPU, memória, event loop, GC
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
