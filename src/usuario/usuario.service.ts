@@ -8,6 +8,8 @@ export interface CreateUsuarioInput {
   setor: string;
   perfil_acesso: string;
   senha: string;
+  vendas_rep_codigo?: number | null;
+  vendas_hub_inicial?: string | null;
 }
 
 @Injectable()
@@ -30,6 +32,8 @@ export class UsuarioService {
         perfil_acesso: data.perfil_acesso,
         senha: senhaHash,
         trash: 0,
+        vendas_rep_codigo: data.vendas_rep_codigo ?? null,
+        vendas_hub_inicial: data.vendas_hub_inicial ?? null,
       });
 
       return {

@@ -58,7 +58,9 @@ export class UsuarioController {
       codigo: dto.codigo,
       setor: dto.setor,
       perfil_acesso: dto.perfil_acesso,
-      senha: dto.senha
+      senha: dto.senha,
+      vendas_rep_codigo: dto.vendas_rep_codigo ?? null,
+      vendas_hub_inicial: dto.vendas_hub_inicial ?? null,
     };
     return this.usuarioService.create(payload);
   }
