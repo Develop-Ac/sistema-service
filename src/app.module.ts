@@ -9,6 +9,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { LoginModule } from './login/login.module';
 import { S3Module } from './storage/s3.module';
 import { SisPermissoesModule } from './permissoes/sis-permissoes.module';
+import { OrcamentoBloqueadoModule } from './orcamentoBloqueado/orcamento-bloqueado.module';
 
 @Module({
 imports: [
@@ -17,6 +18,7 @@ imports: [
     LoginModule,
     S3Module,
     SisPermissoesModule,
+    OrcamentoBloqueadoModule,
 
     PrometheusModule.register({
       defaultMetrics: { enabled: true }, // CPU, memória, event loop, GC
