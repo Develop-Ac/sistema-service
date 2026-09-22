@@ -15,9 +15,10 @@ export class OrcamentoBloqueadoRepository {
 
   /**
    * Marca `liberadogerencia = true` nos orçamentos do rep que estão travando
-   * (importados no Celta e ainda não comparados). O vendas-service e a intranet
-   * leem essa coluna: orçamento divergente mas liberado pela gerência não trava
-   * a criação de orçamento novo, mesmo que o comparativo continue divergindo.
+   * (importados no Celta e ainda não comparados; `false` = divergência detectada
+   * pelo comparativo, `null` = ainda sem marca). O vendas-service e a intranet
+   * leem essa coluna: só `true` destrava a criação de orçamento novo, mesmo que
+   * o comparativo continue divergindo.
    */
   async liberarOrcamentosDoRep(rep_codigo: number) {
     return this.prisma.ven_orcamento.updateMany({
