@@ -4,7 +4,7 @@ import { OrcamentoBloqueadoService } from './orcamento-bloqueado.service';
 import { OrcamentoBloqueadoResponseDto } from './orcamento-bloqueado.dto';
 
 @ApiTags('Orçamento Bloqueado')
-@Controller('orcamentoBloqueado')
+@Controller(' ')
 export class OrcamentoBloqueadoController {
   constructor(private readonly service: OrcamentoBloqueadoService) {}
 
@@ -18,7 +18,8 @@ export class OrcamentoBloqueadoController {
   })
   @ApiResponse({
     status: 200,
-    description: 'Orçamento liberado (orcamentoBloqueado = false)',
+    description:
+      'Vendedor liberado (orcamentoBloqueado = false) e orçamentos divergentes do rep marcados com liberadogerencia = true',
     type: OrcamentoBloqueadoResponseDto,
   })
   @ApiResponse({

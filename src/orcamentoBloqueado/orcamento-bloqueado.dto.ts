@@ -18,4 +18,11 @@ export class OrcamentoBloqueadoResponseDto {
     example: 1,
   })
   atualizados: number;
+
+  @ApiProperty({
+    description:
+      'Orçamentos do rep (importados no Celta e não comparados) que receberam liberadogerencia = true',
+    example: 1,
+  })
+  orcamentos_liberados: number;
 }

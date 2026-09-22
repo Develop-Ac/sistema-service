@@ -15,10 +15,15 @@ export class OrcamentoBloqueadoService {
       );
     }
 
+    // Os orçamentos divergentes desse rep ficam liberados pela gerência: o cron do
+    // comparativo não volta a bloquear por eles, e a tela de orçamento novo não trava.
+    const { count: orcamentos_liberados } = await this.repository.liberarOrcamentosDoRep(vendas_rep_codigo);
+
     return {
       vendas_rep_codigo,
       orcamentoBloqueado: false,
       atualizados: count,
+      orcamentos_liberados,
     };
   }
 }
