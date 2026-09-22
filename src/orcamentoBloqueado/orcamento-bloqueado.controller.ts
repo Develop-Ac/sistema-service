@@ -4,7 +4,7 @@ import { OrcamentoBloqueadoService } from './orcamento-bloqueado.service';
 import { OrcamentoBloqueadoResponseDto } from './orcamento-bloqueado.dto';
 
 @ApiTags('Orçamento Bloqueado')
-@Controller(' ')
+@Controller('orcamentoBloqueado')
 export class OrcamentoBloqueadoController {
   constructor(private readonly service: OrcamentoBloqueadoService) {}
 
