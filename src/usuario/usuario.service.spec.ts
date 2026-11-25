@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ConflictException, NotFoundException } from '@nestjs/common';
-import { UsuarioService, CreateUsuarioInput } from './usuario.service';
+import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
+import { UsuarioService, CreateUsuarioInput, validarTelaInicial } from './usuario.service';
 import { UsuarioRepository } from './usuario.repository';
 import * as bcrypt from 'bcryptjs';
 
@@ -81,6 +81,7 @@ describe('UsuarioService', () => {
         nome: 'NOVO USUÁRIO',
         codigo: 'NU001',
         setor: 'TI',
+        perfil_acesso: 'Admin',
         senha: 'senha123',
       };
 
@@ -104,8 +105,12 @@ describe('UsuarioService', () => {
         nome: 'NOVO USUÁRIO',
         codigo: 'NU001',
         setor: 'TI',
+        perfil_acesso: 'Admin',
         senha: senhaHash,
         trash: 0,
+        vendas_rep_codigo: null,
+        vendas_hub_inicial: null,
+        tela_inicial: null,
       });
       expect(result).toEqual({
         message: 'Usuário criado com sucesso!',
@@ -118,6 +123,7 @@ describe('UsuarioService', () => {
         nome: 'USUÁRIO DUPLICADO',
         codigo: 'UD001',
         setor: 'TI',
+        perfil_acesso: 'Admin',
         senha: 'senha123',
       };
 
@@ -133,6 +139,7 @@ describe('UsuarioService', () => {
         nome: 'NOVO USUÁRIO',
         codigo: 'NU001',
         setor: 'TI',
+        perfil_acesso: 'Admin',
         senha: 'senha123',
       };
 
@@ -281,5 +288,17 @@ describe('UsuarioService', () => {
 
       await expect(service.remove(id)).rejects.toThrow('Erro de banco de dados');
     });
+  });
+});
+describe('validarTelaInicial', () => {
+  it('aceita rota interna e normaliza vazio para null', () => {
+    expect(validarTelaInicial('/vendas')).toBe('/vendas');
+    expect(validarTelaInicial('')).toBeNull();
+    expect(validarTelaInicial(null)).toBeNull();
+    expect(validarTelaInicial(undefined)).toBeNull();
+  });
+
+  it.each(['//evil.com', 'http://x', 'vendas', '/a\\b', '/' + 'a'.repeat(120)])('rejeita %s com 400', (v) => {
+    expect(() => validarTelaInicial(v)).toThrow(BadRequestException);
   });
 });

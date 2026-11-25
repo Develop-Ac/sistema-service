@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -24,6 +25,7 @@ import {
 } from '@nestjs/swagger';
 import { UsuarioService, CreateUsuarioInput } from './usuario.service';
 import { CreateUsuarioDto, UpdateUsuarioDto, UsuarioView } from './usuario.dto';
+import { AuthGuard } from '../login/auth.guard';
 
 @ApiTags('Usuários')
 @ApiExtraModels(CreateUsuarioDto, UpdateUsuarioDto, UsuarioView)
@@ -49,6 +51,7 @@ export class UsuarioController {
   }
 
   @Post()
+  @UseGuards(AuthGuard) // escrita exige JWT de usuário logado (Bearer)
   @ApiOperation({ summary: 'Cria usuário' })
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }))
   // ... (Swagger docs omitidos para brevidade se não for alterar)
@@ -61,11 +64,13 @@ export class UsuarioController {
       senha: dto.senha,
       vendas_rep_codigo: dto.vendas_rep_codigo ?? null,
       vendas_hub_inicial: dto.vendas_hub_inicial ?? null,
+      tela_inicial: dto.tela_inicial ?? null,
     };
     return this.usuarioService.create(payload);
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard) // escrita exige JWT de usuário logado (Bearer)
   @ApiOperation({ summary: 'Atualiza usuário' })
   @ApiParam({ name: 'id', example: '123' })
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }))
@@ -74,6 +79,7 @@ export class UsuarioController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard) // escrita exige JWT de usuário logado (Bearer)
   @ApiOperation({ summary: 'Remove usuário por ID' })
   @ApiParam({ name: 'id', example: '123', description: 'PK usuario_id' })
   @HttpCode(204)

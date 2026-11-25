@@ -50,6 +50,7 @@ describe('LoginRepository', () => {
 
       expect(prismaService.sis_usuarios.findUnique).toHaveBeenCalledWith({
         where: { codigo },
+        include: { sis_permissoes: true },
       });
       expect(result).toEqual(mockUsuario);
     });
@@ -63,6 +64,7 @@ describe('LoginRepository', () => {
 
       expect(prismaService.sis_usuarios.findUnique).toHaveBeenCalledWith({
         where: { codigo },
+        include: { sis_permissoes: true },
       });
       expect(result).toBeNull();
     });
@@ -76,6 +78,7 @@ describe('LoginRepository', () => {
 
       expect(prismaService.sis_usuarios.findUnique).toHaveBeenCalledWith({
         where: { codigo },
+        include: { sis_permissoes: true },
       });
     });
 
@@ -105,6 +108,7 @@ describe('LoginRepository', () => {
 
       expect(prismaService.sis_usuarios.findUnique).toHaveBeenCalledWith({
         where: { codigo: 'js001' },
+        include: { sis_permissoes: true },
       });
       expect(result).toEqual(mockUsuario);
     });
@@ -119,6 +123,7 @@ describe('LoginRepository', () => {
 
       expect(prismaService.sis_usuarios.findUnique).toHaveBeenCalledWith({
         where: { codigo },
+        include: { sis_permissoes: true },
       });
       expect(result).toBeNull();
     });

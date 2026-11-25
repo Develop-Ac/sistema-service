@@ -3,9 +3,10 @@ import { UsuarioController } from './usuario.controller';
 import { UsuarioService } from './usuario.service';
 import { UsuarioRepository } from './usuario.repository';
 import { PrismaModule } from '../prisma/prisma.module';
+import { LoginModule } from '../login/login.module';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, LoginModule],
   controllers: [UsuarioController],
   providers: [UsuarioService, UsuarioRepository],
   exports: [UsuarioService, UsuarioRepository],

@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { UsuarioRepository } from './usuario.repository';
 import * as bcrypt from 'bcryptjs';
 
@@ -10,6 +10,20 @@ export interface CreateUsuarioInput {
   senha: string;
   vendas_rep_codigo?: number | null;
   vendas_hub_inicial?: string | null;
+  tela_inicial?: string | null;
+}
+
+/**
+ * Tela inicial do usuário: rota interna da intranet aberta após o login.
+ * Vazio/null = feed. Só aceita caminho relativo ('/...'), sem '//', '\' nem ':'
+ * (bloqueia redirecionamento para outro host).
+ */
+export function validarTelaInicial(v: string | null | undefined): string | null {
+  if (v === undefined || v === null || v === '') return null;
+  if (!v.startsWith('/') || v.includes('//') || v.includes('\\') || v.includes(':') || v.length > 120) {
+    throw new BadRequestException('Tela inicial inválida: use uma rota interna começando com "/".');
+  }
+  return v;
 }
 
 @Injectable()
@@ -34,6 +48,7 @@ export class UsuarioService {
         trash: 0,
         vendas_rep_codigo: data.vendas_rep_codigo ?? null,
         vendas_hub_inicial: data.vendas_hub_inicial ?? null,
+        tela_inicial: validarTelaInicial(data.tela_inicial),
       });
 
       return {
@@ -59,6 +74,7 @@ export class UsuarioService {
 
   async update(id: string, data: Partial<CreateUsuarioInput>) {
     const updateData: any = { ...data };
+    if ('tela_inicial' in data) updateData.tela_inicial = validarTelaInicial(data.tela_inicial);
 
     if (data.senha) {
       updateData.senha = await bcrypt.hash(data.senha, 10);

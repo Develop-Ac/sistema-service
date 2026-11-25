@@ -39,6 +39,10 @@ export class CreateUsuarioDto {
   @ApiPropertyOptional({ example: 'VAREJO', enum: ['VAREJO', 'ATACADO', 'SUPERVISAO_ATACADO', 'GERENCIA'], description: 'Hub de vendas inicial' })
   @IsOptional() @IsIn(['VAREJO', 'ATACADO', 'SUPERVISAO_ATACADO', 'GERENCIA'])
   vendas_hub_inicial?: string;
+
+  @ApiPropertyOptional({ example: '/vendas', maxLength: 120, description: 'Rota interna aberta após o login; vazio = feed' })
+  @IsOptional() @IsString() @MaxLength(120)
+  tela_inicial?: string | null;
 }
 
 export class UsuarioView {
@@ -49,6 +53,7 @@ export class UsuarioView {
   @ApiProperty({ example: 'Admin' }) perfil_acesso!: string;
   @ApiPropertyOptional({ example: 341 }) vendas_rep_codigo?: number;
   @ApiPropertyOptional({ example: 'VAREJO' }) vendas_hub_inicial?: string;
+  @ApiPropertyOptional({ example: '/vendas' }) tela_inicial?: string | null;
 }
 
 export class UpdateUsuarioDto extends PartialType(CreateUsuarioDto) { }

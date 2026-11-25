@@ -72,6 +72,9 @@ describe('UsuarioRepository', () => {
           perfil_acesso: true,
           codigo: true,
           trash: true,
+          vendas_rep_codigo: true,
+          vendas_hub_inicial: true,
+          tela_inicial: true,
         },
         orderBy: { id: 'asc' },
       });
@@ -107,7 +110,7 @@ describe('UsuarioRepository', () => {
 
       expect(prismaService.sis_usuarios.create).toHaveBeenCalledWith({
         data: createData,
-        select: { id: true, nome: true, setor: true, perfil_acesso: true },
+        select: { id: true, nome: true, setor: true, perfil_acesso: true, vendas_rep_codigo: true, vendas_hub_inicial: true, tela_inicial: true },
       });
       expect(result).toEqual(mockUsuarioCreated);
     });
@@ -173,6 +176,9 @@ describe('UsuarioRepository', () => {
           setor: true,
           perfil_acesso: true,
           codigo: true,
+          vendas_rep_codigo: true,
+          vendas_hub_inicial: true,
+          tela_inicial: true,
         },
       });
       expect(result).toEqual(mockUsuario);
@@ -222,7 +228,7 @@ describe('UsuarioRepository', () => {
       expect(prismaService.sis_usuarios.update).toHaveBeenCalledWith({
         where: { id, trash: 0 },
         data: updateData,
-        select: { id: true, nome: true, setor: true, perfil_acesso: true, codigo: true },
+        select: { id: true, nome: true, setor: true, perfil_acesso: true, codigo: true, vendas_rep_codigo: true, vendas_hub_inicial: true, tela_inicial: true },
       });
       expect(result).toEqual(mockUsuarioUpdated);
     });

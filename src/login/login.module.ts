@@ -16,6 +16,6 @@ import { AuthGuard } from './auth.guard';
     PrismaModule],
   controllers: [LoginController],
   providers: [LoginService, LoginRepository, AuthGuard],
-  exports: [LoginService, LoginRepository, AuthGuard],
+  exports: [LoginService, LoginRepository, AuthGuard, JwtModule],
 })
 export class LoginModule { }

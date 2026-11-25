@@ -60,6 +60,14 @@ export class LoginResponseView {
   })
   permissoes?: any[];
 
+  @ApiProperty({
+    example: '/vendas/atacado/painel',
+    description: 'Tela aberta após o login; null = feed',
+    required: false,
+    nullable: true,
+  })
+  tela_inicial?: string | null;
+
   @ApiProperty({ example: 'Bearer' })
   token_type!: string;
 }

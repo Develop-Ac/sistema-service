@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { LoginService } from './login.service';
 import { LoginRepository } from './login.repository';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 
 // Mock do bcrypt
@@ -15,6 +16,12 @@ describe('LoginService', () => {
 
   const mockLoginRepository = {
     findUsuarioByCodigo: jest.fn(),
+    findUsuarioById: jest.fn(),
+  };
+
+  const mockJwtService = {
+    signAsync: jest.fn().mockResolvedValue('jwt-token'),
+    decode: jest.fn().mockReturnValue({ exp: Math.floor(Date.now() / 1000) + 3600 }),
   };
 
   beforeEach(async () => {
@@ -25,6 +32,7 @@ describe('LoginService', () => {
           provide: LoginRepository,
           useValue: mockLoginRepository,
         },
+        { provide: JwtService, useValue: mockJwtService },
       ],
     }).compile();
 
@@ -48,7 +56,10 @@ describe('LoginService', () => {
         codigo: 'JS001',
         setor: 'ESTOQUE',
         senha: senhaHash,
-        trash: 0,
+        avatar_url: null,
+        vendas_rep_codigo: null,
+        vendas_hub_inicial: null,
+        tela_inicial: '/vendas/atacado/painel',
         sis_permissoes: [
           {
             id: 'perm-1',
@@ -70,13 +81,17 @@ describe('LoginService', () => {
         usuario_id: 'user-123',
         codigo: 'JS001',
         setor: 'ESTOQUE',
+        avatar_url: null,
+        vendas_rep_codigo: null,
+        vendas_hub_inicial: null,
+        tela_inicial: '/vendas/atacado/painel',
         permissoes: mockUsuario.sis_permissoes,
         token_type: 'Bearer',
         expires_in: expect.any(Number),
         access_token: expect.any(String),
       };
 
-      repository.findUsuarioByCodigo.mockResolvedValue(mockUsuario);
+      repository.findUsuarioByCodigo.mockResolvedValue(mockUsuario as any);
       bcryptMock.compare.mockResolvedValue(true as never);
 
       const result = await service.login(codigo, senha);
@@ -113,11 +128,13 @@ describe('LoginService', () => {
         codigo: 'JS001',
         setor: 'ESTOQUE',
         senha: senhaHash,
-        trash: 0,
+        avatar_url: null,
+        vendas_rep_codigo: null,
+        vendas_hub_inicial: null,
         sis_permissoes: [],
       };
 
-      repository.findUsuarioByCodigo.mockResolvedValue(mockUsuario);
+      repository.findUsuarioByCodigo.mockResolvedValue(mockUsuario as any);
       bcryptMock.compare.mockResolvedValue(false as never);
 
       const result = await service.login(codigo, senha);
@@ -141,11 +158,13 @@ describe('LoginService', () => {
         codigo: 'MS002',
         setor: 'VENDAS',
         senha: senhaHash,
-        trash: 0,
+        avatar_url: null,
+        vendas_rep_codigo: null,
+        vendas_hub_inicial: null,
         sis_permissoes: [],
       };
 
-      repository.findUsuarioByCodigo.mockResolvedValue(mockUsuario);
+      repository.findUsuarioByCodigo.mockResolvedValue(mockUsuario as any);
       bcryptMock.compare.mockResolvedValue(true as never);
 
       const result = await service.login(codigo, senha);
@@ -169,11 +188,13 @@ describe('LoginService', () => {
         codigo: 'JS001',
         setor: 'ESTOQUE',
         senha: senhaHash,
-        trash: 0,
+        avatar_url: null,
+        vendas_rep_codigo: null,
+        vendas_hub_inicial: null,
         sis_permissoes: [],
       };
 
-      repository.findUsuarioByCodigo.mockResolvedValue(mockUsuario);
+      repository.findUsuarioByCodigo.mockResolvedValue(mockUsuario as any);
       bcryptMock.compare.mockRejectedValue(new Error('Erro no bcrypt') as never);
 
       await expect(service.login(codigo, senha)).rejects.toThrow('Erro no bcrypt');
@@ -186,6 +207,33 @@ describe('LoginService', () => {
       repository.findUsuarioByCodigo.mockRejectedValue(new Error('Erro de banco de dados'));
 
       await expect(service.login(codigo, senha)).rejects.toThrow('Erro de banco de dados');
+    });
+  });
+
+  describe('getMe', () => {
+    it('devolve tela_inicial do usuário', async () => {
+      repository.findUsuarioById.mockResolvedValue({
+        id: 'user-123',
+        nome: 'JOÃO DA SILVA',
+        codigo: 'JS001',
+        setor: 'VENDAS',
+        senha: 'hash',
+        avatar_url: null,
+        vendas_rep_codigo: 12,
+        vendas_hub_inicial: null,
+        tela_inicial: '/vendas/atacado/painel',
+        sis_permissoes: [],
+      } as any);
+
+      const result = await service.getMe('user-123');
+
+      expect(result).toHaveProperty('tela_inicial', '/vendas/atacado/painel');
+      expect(result).not.toHaveProperty('senha');
+    });
+
+    it('devolve null quando o usuário não existe', async () => {
+      repository.findUsuarioById.mockResolvedValue(null);
+      expect(await service.getMe('x')).toBeNull();
     });
   });
 });

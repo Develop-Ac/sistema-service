@@ -22,6 +22,7 @@ model sis_usuarios {
   tema_preferencia  String             @default("system")
   vendas_rep_codigo  Int?
   vendas_hub_inicial String?           // 'VAREJO' | 'ATACADO'
+  tela_inicial       String?           @db.VarChar(120) // rota interna aberta após o login; null = feed
 }
 
 model com_cotacao {
