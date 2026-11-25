@@ -85,6 +85,7 @@ export class LoginService {
       vendas_rep_codigo: usuario.vendas_rep_codigo ?? null,
       vendas_hub_inicial: usuario.vendas_hub_inicial ?? null,
       tela_inicial: usuario.tela_inicial ?? null,
+      orcamentoBloqueado: usuario.orcamentoBloqueado ?? null,
       permissoes: usuario.sis_permissoes || [],
     };
   }
